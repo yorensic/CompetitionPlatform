@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞赛中枢 RADAR</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 顶部全局导航栏 -->
+    <header class="navbar glass-card">
+        <div class="logo">🎓 竞赛中枢 RADAR</div>
+        <div class="global-search">
+            <input type="text" id="search-input" placeholder="搜索竞赛名称、主办方、关键词...">
+        </div>
+        <div class="nav-routes">
+            <button class="route-btn active" data-page="page-home">比赛库</button>
+            <button class="route-btn" data-page="page-calendar">日历时间轴</button>
+            <button class="route-btn" data-page="page-guide">备赛攻略</button>
+            <button class="route-btn" data-page="page-awards">获奖墙</button>
+            <span class="divider"></span>
+            <button class="func-btn">我的关注</button>
+            <button class="func-btn">数据洞察</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <!-- ================= 页面1：首页（数据总览大屏） ================= -->
+        <section id="page-home" class="page-view active">
+            <!-- 区块2：数据总览 -->
+            <div class="overview-row">
+                <div class="overview-card glass-card">
+                    <div class="card-header">
+                        <h2>全量收录赛事：<span id="total-count">84</span>项</h2>
+                        <p class="sub-text">*数据源：教育部2026学科竞赛目录</p >
+                    </div>
+                    <div class="rings-container">
+                        <div id="chart-ring-green" class="ring-chart"></div>
+                        <div id="chart-ring-orange" class="ring-chart"></div>
+                        <div id="chart-ring-blue" class="ring-chart"></div>
+                    </div>
+                </div>
+                <div class="chart-card glass-card">
+                    <div class="card-header">
+                        <h2>月度竞赛分布 <span class="sub-text" style="font-weight: normal;">(点击柱子筛选)</span></h2>
+                    </div>
+                    <div id="chart-bar" style="width: 100%; height: 220px;"></div>
+                </div>
+            </div>
+
+            <!-- 区块3：筛选控件 -->
+            <div class="filter-bar glass-card">
+                <div class="filter-group">
+                    <span class="filter-label">类别：</span>
+                    <button class="filter-btn active" data-type="category" data-val="全部">全部</button>
+                    <button class="filter-btn" data-type="category" data-val="计算机">计算机程序设计</button>
+                    <button class="filter-btn" data-type="category" data-val="创新创业">创新创业</button>
+                    <button class="filter-btn" data-type="category" data-val="数学">数学</button>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">级别：</span>
+                    <button class="filter-btn active" data-type="level" data-val="全部">全部</button>
+                    <button class="filter-btn" data-type="level" data-val="国家级">国家级</button>
+                    <button class="filter-btn" data-type="level" data-val="省级">省级</button>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">月份：</span>
+                    <select id="filter-month" class="filter-select">
+                        <option value="全部">全部</option>
+                        <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+                        <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+                        <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+                        <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 区块4：赛事列表 -->
+            <div class="list-card glass-card">
+                <div class="table-header">
+                    <div class="col-title">竞赛名称 / 标签</div>
+                    <div class="col-info">详情信息</div>
+                    <div class="col-action">官网 / 状态 / 标记</div>
+                </div>
+                <div id="home-list" class="table-body"></div>
+            </div>
+        </section>
+
+        <!-- ================= 页面2：独立比赛库页 ================= -->
+        <section id="page-library" class="page-view">
+            <div class="glass-card" style="padding: 40px; text-align: center;">
+                <h2>📚 完整赛事库</h2>
+                <p class="sub-text">此处提供更高级的筛选与导出日历功能（演示占位）</p >
+            </div>
+        </section>
+
+        <!-- ================= 页面3：日历时间轴页 ================= -->
+        <section id="page-calendar" class="page-view">
+            <div class="glass-card">
+                <h2>📅 月历视图</h2>
+                <div class="calendar-placeholder">这里展示月历格子（演示占位），格子内标出竞赛。</div>
+            </div>
+            <div class="glass-card">
+                <h2>⏱ 时间轴视图</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time-tag">10月-12月</div>
+                        <div class="time-content">
+                            <h3>蓝桥杯报名</h3>
+                            <p>状态：正在报名</p >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 页面4：备赛攻略页 ================= -->
+        <section id="page-guide" class="page-view">
+            <h2>💡 核心赛事备赛攻略</h2>
+            <div class="guide-grid">
+                <div class="guide-card glass-card">
+                    <h3>1. 蓝桥杯全国软件大赛</h3>
+                    <p><strong>所需基础：</strong>掌握 C/C++ 或 Java 基础，了解基础数据结构。</p >
+                    <p><strong>准备周期：</strong>提前 3 个月刷真题。</p >
+                    <p><strong>书与课：</strong>《算法竞赛入门经典》 / B站真题精讲。</p >
+                    <p><strong>踩坑经验：</strong>不要盲目刷难题，基础题必须保证正确率。</p >
+                </div>
+                <div class="guide-card glass-card">
+                    <h3>2. 中国国际大学生创新大赛（互联网+）</h3>
+                    <p><strong>所需基础：</strong>具备一定的产品思维、PPT 制作能力，以及核心技术支持。</p >
+                    <p><strong>准备周期：</strong>提前半年组队，进行项目孵化。</p >
+                    <p><strong>书与课：</strong>《精益创业》 / 中国大学MOOC《创新创业基础》。</p >
+                    <p><strong>踩坑经验：</strong>商业计划书不能太空，一定要有实际落地数据，不能纯 PPT 创业。</p >
+                </div>
+                <div class="guide-card glass-card">
+                    <h3>3. 全国大学生数学建模竞赛</h3>
+                    <p><strong>所需基础：</strong>掌握一门编程语言（MATLAB/Python），熟悉一种排版工具（LaTeX/Word）。</p >
+                    <p><strong>准备周期：</strong>暑假期间进行为期 1-2 个月的集训。</p >
+                    <p><strong>书与课：</strong>《数学建模算法与应用》 / 推荐B站各类数模国奖经验分享。</p >
+                    <p><strong>踩坑经验：</strong>不要执着于完美模型，摘要写得好不好直接决定能不能拿国奖。</p >
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 页面5：获奖墙页 ================= -->
+        <section id="page-awards" class="page-view">
+            <div class="glass-card">
+                <h2>🏆 学院历史获奖记录</h2>
+                <table class="award-table">
+                    <thead>
+                        <tr>
+                            <th>年份</th>
+                            <th>竞赛名称</th>
+                            <th>奖项等级</th>
+                            <th>参赛队员</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023</td>
+                            <td>蓝桥杯省赛</td>
+                            <td>一等奖</td>
+                            <td>未核实</td>
+                            <td>未核实</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- 详情弹窗 -->
+    <div id="global-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <button class="close-btn" id="modal-close">×</button>
+            <h2 id="modal-title">赛事名称</h2>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div id="global-toast" class="toast">已更新关注状态</div>
+
+    <script src="./js/app.js"></script>
+</body>
+</html>
